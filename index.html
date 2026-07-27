@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>Control de Pinza MQTT</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="panel" aria-labelledby="page-title">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">ESP32 · HiveMQ Cloud</p>
+          <h1 id="page-title">Control de pinza</h1>
+          <p class="subtitle">Mantén presionado para cerrar. Suelta para abrir.</p>
+        </div>
+        <div id="connectionBadge" class="badge badge-offline" role="status" aria-live="polite">
+          <span class="dot"></span>
+          <span id="connectionText">Desconectado</span>
+        </div>
+      </header>
+
+      <section class="status-grid" aria-label="Estado del sistema">
+        <article class="status-card">
+          <span class="status-label">Pinza</span>
+          <strong id="gripperState" class="status-value">DESCONOCIDA</strong>
+          <span id="statusReason" class="status-detail">Sin telemetría</span>
+        </article>
+        <article class="status-card">
+          <span class="status-label">Broker</span>
+          <strong id="brokerState" class="status-value">FUERA DE LÍNEA</strong>
+          <span id="lastUpdate" class="status-detail">Sin conexión</span>
+        </article>
+      </section>
+
+      <section class="controls" aria-label="Controles de la pinza">
+        <button id="connectButton" class="secondary-button" type="button">Conectar al broker</button>
+
+        <button id="holdButton" class="hold-button" type="button" disabled aria-describedby="holdHelp">
+          <span class="hold-icon" aria-hidden="true">⌄</span>
+          <span id="holdButtonText">MANTENER PARA CERRAR</span>
+          <small id="holdHelp">Al soltar se envía OPEN</small>
+        </button>
+
+        <button id="openButton" class="open-button" type="button" disabled>ABRIR AHORA</button>
+      </section>
+
+      <section class="log-panel" aria-labelledby="log-title">
+        <div class="log-header">
+          <h2 id="log-title">Registro</h2>
+          <button id="clearLogButton" class="text-button" type="button">Limpiar</button>
+        </div>
+        <ol id="eventLog" class="event-log" aria-live="polite"></ol>
+      </section>
+
+      <p class="safety-note">
+        La ESP32 debe abrir automáticamente si deja de recibir el heartbeat de cierre.
+      </p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/mqtt@5.10.4/dist/mqtt.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
